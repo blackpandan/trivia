@@ -57,12 +57,11 @@ class TriviaTestCase(unittest.TestCase):
     def test_get_questions(self):
         response = self.client().get('/questions')
         data = json.loads(response.data)
-        all_questions = Question.query.all()
+        all_questions = Question.query.limit(10).offset(0).all()
         questions = [question.format() for question in all_questions]
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(questions), data['total_questions'])
-        self.assertEqual(data["questions"], questions)
         self.assertIn('questions', data)
         self.assertEqual(data['success'], True)
         self.assertEqual(data['page'], 1)
@@ -170,7 +169,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertIn("search_term", data)
 
 
-    def test_get_questions(self):
+    def test_get_questions_by_category(self):
         response = self.client().get('/categories/1/questions')
         data = json.loads(response.data)
         category = Category.query.get(1)
@@ -178,23 +177,24 @@ class TriviaTestCase(unittest.TestCase):
         questions = [question.format() for question in all_questions]
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(data['total_questions'], questions)
+        self.assertEqual(data['questions'], questions)
         self.assertIn('questions', data)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['page'], 1)
         self.assertIn('total_questions', data)
         self.assertIn('current_category', data)
         self.assertIn('categories', data)
 
 
-    def test_no_questions(self):
-        response = self.client().get('/categories/1000/questions')
+    def test_no_questions_by_category(self):
+        response = self.client().get('/categories/7/questions')
         data = json.loads(response.data)
-        category = Category.query.get(1)
+        category = Category.query.get(7)
         all_questions = Question.query.filter(Question.category == category.id).all()
         questions = [question.format() for question in all_questions]
 
         self.assertEqual(response.status_code, 200)
+        print(all_questions)
+        print(f"length: {len(questions)}")
         if len(questions) != 0:
             self.assertNotEqual(len(data['questions']), 0)
             self.assertNotEqual(data['total_questions'], 0)
@@ -202,6 +202,12 @@ class TriviaTestCase(unittest.TestCase):
             self.assertEqual(len(data['questions']), 0)
             self.assertEqual(data['total_questions'], 0)
 
+    
+    def test_get_questions_category_not_found(self):
+        response = self.client().get('/questions/1000/questions')
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 404)
 
 
 # Make the tests conveniently executable
