@@ -215,46 +215,49 @@ def create_app(test_config=None):
         if data is None:
             abort(400)
 
-        previous_questions = data["previous_questions"]
-        current_category = data["category"]
-        
-        print(current_category)
+        try:
+            previous_questions = data["previous_questions"]
+            current_category = data["category"]
+            
+            print(current_category)
 
-        if current_category == "all":
-            all_questions = Question.query.all()
+            if current_category == "all":
+                all_questions = Question.query.all()
 
 
-        else:
-            all_questions = Question.query.filter(
-                Question.category == current_category).all()
+            else:
+                all_questions = Question.query.filter(
+                    Question.category == current_category).all()
 
-        questions = []
+            questions = []
 
-        for question in all_questions:
-            if question.id not in previous_questions:
-                questions.append(question.format())
+            for question in all_questions:
+                if question.id not in previous_questions:
+                    questions.append(question.format())
 
-        if len(questions) == 0:
+            if len(questions) == 0:
+                return jsonify({
+                    "success":True,
+                    "message":"no more questions",
+                    "question":[],
+                    "current_category":current_category
+                })
+            else:
+                if len(questions) == 1:
+                    question = questions[0]
+             
+                random_index = random.randint(0, (len(questions)-1))
+
+            question = questions[random_index]
+
             return jsonify({
                 "success":True,
-                "message":"no more questions",
-                "question":[],
+                "question":question,
                 "current_category":current_category
             })
-        else:
-            if len(questions) == 1:
-                question = questions[0]
-         
-            random_index = random.randint(0, (len(questions)-1))
 
-        question = questions[random_index]
-
-        return jsonify({
-            "success":True,
-            "question":question,
-            "current_category":current_category
-        })
-
+        except KeyError as e:
+            abort(406)
 
 
     """
@@ -262,6 +265,14 @@ def create_app(test_config=None):
     Create error handlers for all expected errors
     including 404 and 422.
     """
+
+    @app.errorhandler(400)
+    def not_found(error):
+        return jsonify({
+            "success":False,
+            "message":"Bad Request",
+            "error": 400
+        }), 400
 
     @app.errorhandler(404)
     def not_found(error):
