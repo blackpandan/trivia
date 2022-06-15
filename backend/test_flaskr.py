@@ -31,7 +31,7 @@ class TriviaTestCase(unittest.TestCase):
     def tearDown(self):
         """Executed after reach test"""
 
-    """@TODO Write at least one test for each test for successful operation and for expected errors."""
+    """@DONE:TODO Write at least one test for each test for successful operation and for expected errors."""
 
 
     def test_get_all_categories(self):
@@ -57,9 +57,10 @@ class TriviaTestCase(unittest.TestCase):
     def test_get_questions(self):
         response = self.client().get('/questions')
         data = json.loads(response.data)
+        # gets questions simlar with expected output
         all_questions = Question.query.limit(10).offset(0).all()
         questions = [question.format() for question in all_questions]
-
+        
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(questions), data['total_questions'])
         self.assertIn('questions', data)
@@ -72,6 +73,7 @@ class TriviaTestCase(unittest.TestCase):
     def test_no_questions(self):
         response = self.client().get('/questions')
         data = json.loads(response.data)
+        # gets questions simlar with expected output
         questions = Question.query.all()
 
         if len(questions) != 0:
@@ -90,14 +92,15 @@ class TriviaTestCase(unittest.TestCase):
         if question is not None:
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data['success'], True)
-            self.assertEqual(data['deleted_question'], question.id)
+            self.assertEqual(data['deleted_question'], 5)
             self.assertIn('questions', data)
             self.assertIn('total_questions', data)
+        else:
+            self.assertTrue(question is None)
 
    
     def test_delete_question_not_found(self):
         response = self.client().delete('/questions/2000')
-        question = Question.query.get(5)
         data = json.loads(response.data)
 
         self.assertEqual(data['success'], False)
@@ -142,6 +145,7 @@ class TriviaTestCase(unittest.TestCase):
     def test_search_question(self):
         response = self.client().post('/questions', json={"search_term":"title"})
         data = json.loads(response.data)
+        # gets questions with the same search term as expected output
         all_questions = Question.query.filter(Question.question.ilike("%title%")).all()
         questions = [question.format() for question in all_questions]
 
@@ -157,6 +161,7 @@ class TriviaTestCase(unittest.TestCase):
         response = self.client().post('/questions',
                                       json={"search_term":"tyyghbnanghbnj"})
         data = json.loads(response.data)
+        # gets questions with the same search term as expected output
         all_questions = Question.query.filter(Question.question.ilike("%tyyghbnanghbnj%"))
         questions = [question.format() for question in all_questions]
 
@@ -172,6 +177,7 @@ class TriviaTestCase(unittest.TestCase):
         response = self.client().get('/categories/1/questions')
         data = json.loads(response.data)
         category = Category.query.get(1)
+        # gets questions based on supplied category id
         all_questions = Question.query.filter(Question.category == category.id).all()
         questions = [question.format() for question in all_questions]
 
@@ -188,6 +194,7 @@ class TriviaTestCase(unittest.TestCase):
         response = self.client().get('/categories/7/questions')
         data = json.loads(response.data)
         category = Category.query.get(7)
+        # gets questions based on supplied category id
         all_questions = Question.query.filter(Question.category == category.id).all()
         questions = [question.format() for question in all_questions]
 

@@ -15,12 +15,12 @@ def create_app(test_config=None):
     setup_db(app)
 
     """
-    @TODO: Set up CORS. Allow '*' for origins. Delete the sample route after completing the TODOs
+    @DONE:TODO: Set up CORS. Allow '*' for origins. Delete the sample route after completing the TODOs
     """
     cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
     """
-    @TODO: Use the after_request decorator to set Access-Control-Allow
+    @DONE:TODO: Use the after_request decorator to set Access-Control-Allow
     """
     @app.after_request
     def after_request(response):
@@ -31,13 +31,15 @@ def create_app(test_config=None):
         return response
 
     """
-    @TODO:
+    @DONE:TODO:
 
     Create an endpoint to handle GET requests
     for all available categories.
     """
     @app.route('/categories')
     def get_categories():
+
+        # get all categories and return formatted version
         all_categories = Category.query.all()
         categories = [category.format() for category in all_categories]
 
@@ -48,7 +50,7 @@ def create_app(test_config=None):
         })
 
     """
-    @TODO:
+    @DONE:TODO:
     Create an endpoint to handle GET requests for questions,
     including pagination (every 10 questions).
     This endpoint should return a list of questions,
@@ -87,7 +89,7 @@ def create_app(test_config=None):
     """
 
     """
-    @TODO:
+    @DONE:TODO:
     Create an endpoint to DELETE question using a question ID.
 
     TEST: When you click the trash icon next to a question, the question will be removed.
@@ -111,7 +113,7 @@ def create_app(test_config=None):
                 "total_questions":len(questions)
             })
     """
-    @TODO:
+    @DONE:TODO:
     Create an endpoint to POST a new question,
     which will require the question and answer text,
     category, and difficulty score.
@@ -130,6 +132,7 @@ def create_app(test_config=None):
         else:
             if "search_term" in data:
                 search_term = data["search_term"]
+                # use ilike to get questions similar to search_term by name
                 questions = Question.query.filter(Question.question.ilike(f"%{search_term}%")).all()
                 return jsonify({
                     "success": True,
@@ -149,6 +152,7 @@ def create_app(test_config=None):
                         "success":True,
                         "question_created": new_question.id
                     })
+
                 except KeyError as e:
                     abort(406)
                 
@@ -166,7 +170,7 @@ def create_app(test_config=None):
     """
 
     """
-    @TODO:
+    @DONE:TODO:
     Create a GET endpoint to get questions based on category.
 
     TEST: In the "List" tab / main screen, clicking on one of the
@@ -177,8 +181,11 @@ def create_app(test_config=None):
     @app.route('/categories/<int:id>/questions')
     def get_question_by_category(id):
         category = Category.query.get(id)
+
         all_categories = Category.query.all()
         categories = [category.format() for category in all_categories]
+
+        # filter questions by category gotten from url
         all_questions = Question.query.filter(Question.category == id).all()
         questions = [question.format() for question in all_questions]
 
@@ -197,7 +204,7 @@ def create_app(test_config=None):
     
 
     """
-    @TODO:
+    @DONE:TODO:
     Create a POST endpoint to get questions to play the quiz.
     This endpoint should take category and previous question parameters
     and return a random questions within the given category,
@@ -219,20 +226,23 @@ def create_app(test_config=None):
             previous_questions = data["previous_questions"]
             current_category = data["category"]
             
+            # get questions based on category value supplied
             if current_category == "all":
                 all_questions = Question.query.all()
-
 
             else:
                 all_questions = Question.query.filter(
                     Question.category == current_category).all()
 
-            questions = []
 
+            # create array with questions not among the supplied previous questions
+            questions = []
             for question in all_questions:
                 if question.id not in previous_questions:
                     questions.append(question.format())
 
+
+            # checks if there are no more questions and returns a message
             if len(questions) == 0:
                 return jsonify({
                     "success":True,
@@ -240,10 +250,13 @@ def create_app(test_config=None):
                     "question":[],
                     "current_category":current_category
                 })
+
             else:
+                # checks if only 1 question remains and return it
                 if len(questions) == 1:
                     question = questions[0]
              
+                # create a random index from the number of questions using random module
                 random_index = random.randint(0, (len(questions)-1))
 
             question = questions[random_index]
@@ -259,7 +272,7 @@ def create_app(test_config=None):
 
 
     """
-    @TODO:
+    @DONE:TODO:
     Create error handlers for all expected errors
     including 404 and 422.
     """
