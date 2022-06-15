@@ -142,7 +142,9 @@ class TriviaTestCase(unittest.TestCase):
     def test_search_question(self):
         response = self.client().post('/questions', json={"search_term":"title"})
         data = json.loads(response.data)
-        questions = Question.query.filter(Question.question.ilike("%title%"))
+        all_questions = Question.query.filter(Question.question.ilike("%title%")).all()
+        questions = [question.format() for question in all_questions]
+        print(questions)
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data["questions"], questions)
@@ -156,10 +158,11 @@ class TriviaTestCase(unittest.TestCase):
         response = self.client().post('/questions',
                                       json={"search_term":"tyyghbnanghbnj"})
         data = json.loads(response.data)
-        questions = Question.query.filter(Question.question.ilike("%tyyghbnanghbnj%"))
+        all_questions = Question.query.filter(Question.question.ilike("%tyyghbnanghbnj%"))
+        questions = [question.format() for question in all_questions]
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(data["questions"], 0)
+        self.assertEqual(len(data["questions"]), 0)
         self.assertEqual(data["search_term"], "tyyghbnanghbnj")
         self.assertEqual(data["total_questions"], 0)
         self.assertIn("total_questions", data)
