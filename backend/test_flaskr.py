@@ -144,7 +144,6 @@ class TriviaTestCase(unittest.TestCase):
         data = json.loads(response.data)
         all_questions = Question.query.filter(Question.question.ilike("%title%")).all()
         questions = [question.format() for question in all_questions]
-        print(questions)
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data["questions"], questions)

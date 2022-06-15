@@ -124,12 +124,19 @@ def create_app(test_config=None):
     def create_question():
         data = request.get_json()
 
-        if data is None:
+        if data == None:
             abort(400)
 
         else:
             if "search_term" in data:
-                abort(406)
+                search_term = data["search_term"]
+                questions = Question.query.filter(Question.question.ilike(f"%{search_term}%")).all()
+                return jsonify({
+                    "success": True,
+                    "questions": [question.format() for question in questions],
+                    "total_questions":len(questions),
+                    "search_term":search_term
+                })
 
             else:
                 try:
