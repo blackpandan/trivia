@@ -66,7 +66,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertEqual(data['page'], 1)
         self.assertIn('total_questions', data)
-        # self.assertIn('current_category', data)
         self.assertIn('categories', data)
 
 
