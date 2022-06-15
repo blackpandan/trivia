@@ -210,7 +210,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
 
     
-    def test_get_unique_random_question(self):
+    def test_get_quizzes(self):
         response = self.client().post('/quizzes',
                                       json={"previous_questions":[5],
                                             "category":"all"
