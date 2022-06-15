@@ -166,7 +166,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data["search_term"], "tyyghbnanghbnj")
         self.assertEqual(data["total_questions"], 0)
         self.assertIn("total_questions", data)
-        self.assertIn("search_term", data)
+        self.assertIn("search_term", data) 
 
 
     def test_get_questions_by_category(self):
@@ -220,6 +220,20 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("question", data)
         self.assertNotEqual("question", [])
+
+
+    def test_get_quizzes_missing_parameter(self):
+        response = self.client().post('/quizzes', json={"category": "all"})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 406)
+
+
+    def test_get_quizzes_no_parameter(self):
+        response = self.client().post('/quizzes')
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 400)
 
 
 # Make the tests conveniently executable
