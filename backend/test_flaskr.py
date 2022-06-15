@@ -152,6 +152,18 @@ class TriviaTestCase(unittest.TestCase):
         self.assertIn("search_term", data)
 
 
+    def test_search_question_not_found(self):
+        response = self.client().post('/questions',
+                                      json={"search_term":"tyyghbnanghbnj"})
+        data = json.loads(response.data)
+        questions = Question.query.filter(Question.question.ilike("%tyyghbnanghbnj%"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data["questions"], 0)
+        self.assertEqual(data["search_term"], "tyyghbnanghbnj")
+        self.assertEqual(data["total_questions"], 0)
+        self.assertIn("total_questions", data)
+        self.assertIn("search_term", data)
 
 
 # Make the tests conveniently executable
