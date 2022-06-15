@@ -106,7 +106,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['error'], 404)
 
 
-    def test_delete_wrong_method(self):
+    def test_wrong_method(self):
         response = self.client().get('/questions/2000')
         data = json.loads(response.data)
 
