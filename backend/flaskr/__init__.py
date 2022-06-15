@@ -147,11 +147,18 @@ def create_app(test_config=None):
                                           category=data['category'],
                                           difficulty=data['difficulty'])
 
-                    new_question.insert()
-                    return jsonify({
-                        "success":True,
-                        "question_created": new_question.id
-                    })
+                    # check if category is valid
+                    category = Category.query.get(data['category'])
+
+                    if category is None:
+                        abort(406)
+
+                    else:
+                        new_question.insert()
+                        return jsonify({
+                            "success":True,
+                            "question_created": new_question.id
+                        })
 
                 except KeyError as e:
                     abort(406)
