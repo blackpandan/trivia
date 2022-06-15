@@ -85,8 +85,8 @@ class TriviaTestCase(unittest.TestCase):
 
             
     def test_delete_question(self):
-        response = self.client().delete('/questions/5')
         question = Question.query.get(5)
+        response = self.client().delete('/questions/5')
         data = json.loads(response.data)
 
         if question is not None:
@@ -140,6 +140,18 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data["success"], False)
         self.assertEqual(data["error"], 406)
         self.assertIn("message", data)
+
+
+    def test_create_question_category_not_found(self):
+        response = self.client().post('/questions', json={"question":"Tested",
+                                                          "answer":"omo",
+                                                          "difficulty":1,
+                                                          "category":70000
+                                                         })
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 406)
+        self.assertEqual(data["success"], False)
 
 
     def test_search_question(self):
