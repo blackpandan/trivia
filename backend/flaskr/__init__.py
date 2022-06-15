@@ -122,20 +122,29 @@ def create_app(test_config=None):
     """
     @app.route("/questions", methods=["POST"])
     def create_question():
-        try:
-            data = request.get_json()
-            new_question = Question(question=data['question'], answer=data['answer'],
-                                  category=data['category'],
-                                  difficulty=data['difficulty'])
+        data = request.get_json()
 
-            new_question.insert()
-            return jsonify({
-                "success":True,
-                "question_created": new_question.id
-            })
-        except KeyError as e:
-            abort(406)
-            
+        if data is None:
+            abort(400)
+
+        else:
+            if "search_term" in data:
+                abort(406)
+
+            else:
+                try:
+                    new_question = Question(question=data['question'], answer=data['answer'],
+                                          category=data['category'],
+                                          difficulty=data['difficulty'])
+
+                    new_question.insert()
+                    return jsonify({
+                        "success":True,
+                        "question_created": new_question.id
+                    })
+                except KeyError as e:
+                    abort(406)
+                
         
 
     """
