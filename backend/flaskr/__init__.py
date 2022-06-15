@@ -72,7 +72,7 @@ def create_app(test_config=None):
         return jsonify(
             {
                 "questions":questions[start:end],
-                "total_questions":len(questions),
+                "total_questions":len(questions[start:end]),
                 "page": page,
                 "success":True,
                 "categories": categories
@@ -155,7 +155,7 @@ def create_app(test_config=None):
         
 
     """
-    @TODO:
+    @Done:TODO:
     Create a POST endpoint to get questions based on a search term.
     It should return any questions for whom the search term
     is a substring of the question.
@@ -173,6 +173,28 @@ def create_app(test_config=None):
     categories in the left column will cause only questions of that
     category to be shown.
     """
+
+    @app.route('/categories/<int:id>/questions')
+    def get_question_by_category(id):
+        category = Category.query.get(id)
+        all_categories = Category.query.all()
+        categories = [category.format() for category in all_categories]
+        all_questions = Question.query.filter(Question.category == id).all()
+        questions = [question.format() for question in all_questions]
+
+        if category is None:
+            abort(404)
+
+        else:
+            return jsonify({
+                "success" : True,
+                "questions" : questions,
+                "total_questions": len(questions),
+                "current_category": category.type,
+                "categories": categories
+            })
+
+    
 
     """
     @TODO:
