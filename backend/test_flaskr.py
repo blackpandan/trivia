@@ -193,8 +193,6 @@ class TriviaTestCase(unittest.TestCase):
         questions = [question.format() for question in all_questions]
 
         self.assertEqual(response.status_code, 200)
-        print(all_questions)
-        print(f"length: {len(questions)}")
         if len(questions) != 0:
             self.assertNotEqual(len(data['questions']), 0)
             self.assertNotEqual(data['total_questions'], 0)

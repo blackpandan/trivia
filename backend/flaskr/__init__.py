@@ -219,8 +219,6 @@ def create_app(test_config=None):
             previous_questions = data["previous_questions"]
             current_category = data["category"]
             
-            print(current_category)
-
             if current_category == "all":
                 all_questions = Question.query.all()
 
