@@ -4,7 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 
 database_name = 'trivia'
-database_path = 'postgres://{}/{}'.format('student:student@localhost:5432', database_name)
+database_user = os.getenv("DATABASE_USER")
+database_password = os.getenv("DATABASE_PASS")
+database_server = 'localhost:5432'
+database_path = f'postgres://{database_user}:{database_password}@{database_server}/{database_name}'
 
 db = SQLAlchemy()
 
