@@ -9,6 +9,18 @@ from models import setup_db, Question, Category
 QUESTIONS_PER_PAGE = 10
 
 
+# function to format the category into key pair values e.g "1" : "Science"
+def clean_category(all_categories):
+    clean_categories = [category.format() for category in all_categories]
+    if len(clean_categories) == 0:
+        return {}
+    else:
+        categories = {}
+        for category in clean_categories:
+            categories[category['id']] = category['type'] 
+        return categories
+
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
@@ -41,7 +53,8 @@ def create_app(test_config=None):
 
         # get all categories and return formatted version
         all_categories = Category.query.all()
-        categories = [category.format() for category in all_categories]
+        categories = clean_category(all_categories)
+        print(categories)
 
         return jsonify({
             "success":True,
@@ -66,7 +79,7 @@ def create_app(test_config=None):
         end = start + QUESTIONS_PER_PAGE
 
         all_categories = Category.query.all()
-        categories = [category.format() for category in all_categories]
+        categories = clean_category(all_categories)
 
         all_questions = Question.query.all()
         questions = [question.format() for question in all_questions]
@@ -190,8 +203,7 @@ def create_app(test_config=None):
         category = Category.query.get(id)
 
         all_categories = Category.query.all()
-        categories = [category.format() for category in all_categories]
-
+        categories = clean_category(all_categories)
         if category is None:
             abort(404)
 

@@ -31,7 +31,6 @@ class QuestionView extends Component {
           categories: result.categories,
           currentCategory: result.current_category,
         });
-        console.log(result);
         return;
       },
       error: (error) => {
@@ -128,7 +127,6 @@ class QuestionView extends Component {
   };
 
   render() {
-            console.log(this.state.categories)
     return (
       <div className='question-view'>
         <div className='categories-list'>
