@@ -189,9 +189,12 @@ class TriviaTestCase(unittest.TestCase):
         response = self.client().get('/categories/1/questions')
         data = json.loads(response.data)
         category = Category.query.get(1)
+
         # gets questions based on supplied category id
         all_questions = Question.query.filter(Question.category == category.id).all()
         questions = [question.format() for question in all_questions]
+
+        
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['questions'], questions)
@@ -203,9 +206,10 @@ class TriviaTestCase(unittest.TestCase):
 
 
     def test_no_questions_by_category(self):
-        response = self.client().get('/categories/7/questions')
+        response = self.client().get('/categories/4/questions')
         data = json.loads(response.data)
-        category = Category.query.get(7)
+        category = Category.query.get(4)
+
         # gets questions based on supplied category id
         all_questions = Question.query.filter(Question.category == category.id).all()
         questions = [question.format() for question in all_questions]

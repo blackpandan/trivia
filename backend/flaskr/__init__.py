@@ -192,21 +192,20 @@ def create_app(test_config=None):
         all_categories = Category.query.all()
         categories = [category.format() for category in all_categories]
 
+        if category is None:
+            abort(404)
+
         # filter questions by category gotten from url
         all_questions = Question.query.filter(Question.category == id).all()
         questions = [question.format() for question in all_questions]
 
-        if category is None:
-            abort(404)
-
-        else:
-            return jsonify({
-                "success" : True,
-                "questions" : questions,
-                "total_questions": len(questions),
-                "current_category": category.type,
-                "categories": categories
-            })
+        return jsonify({
+            "success" : True,
+            "questions" : questions,
+            "total_questions": len(questions),
+            "current_category": category.type,
+            "categories": categories
+        })
 
     
 
