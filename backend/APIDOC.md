@@ -129,7 +129,7 @@ below are the list of the codes return and their meaning
                 ],}
         ```
 
-    - **Create Questions**: perform a post request with the following attributes
+    - **Create Questions**: perform a post request with the following attributes, it creates a question in the database and returns a response that contains id of the created question.
 
         **attributes**
 
@@ -150,7 +150,7 @@ below are the list of the codes return and their meaning
         ```json
         {
             "success":True,
-            "question_created": 1 // id of question
+            "question_created": 1 
         }
         ```
 
