@@ -40,18 +40,21 @@ to popluate the database change directory to ```./backend``` and run
     psql trivia < trivia.psql
     ```
 
-- now to get the flask server running, if you intend to run it in a development environment, export the flask_env variable first
+- now to get the flask server running, if you intend to run it in a development environment, export the flask_env and flask_app variables first, change directory to backend
 
     for window cmd
     ```
+    set FLASK_APP=flaskr
     set FLASK_ENV=development
     ```
     for window powershell
     ```
+    $Env:FLASK_APP=flaskr
     $Env:FLASK_ENV=development
     ```
     for linux
     ```
+    export FLASK_APP=flaskr
     export FLASK_ENV=development
     ```
 
