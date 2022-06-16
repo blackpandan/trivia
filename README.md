@@ -6,7 +6,7 @@ the flask backend follows PEP8 guidelines for python.
 
 
 ## **Getting Started**
----
+
 you need to have python installed on your system with node and npm (a package manager for node)
 
 
@@ -21,6 +21,11 @@ you need to have python installed on your system with node and npm (a package ma
     ```
     pip install -r requirements.txt
     ```
+
+- due to Flask-Cors depreciation some codes have to be corrected from the flask module, open ```core.py``` in ```{path to your env}/python/version/lib/python/site-packages/flask_cors/core.py```
+
+    on **line 322 and 342** change ```collections.Iterable``` to ```collections.abc.Iterable```
+
 - install a relational database management system (rdbms), recommended rdbms is postgresql you can download and get more info [here](https://www.postgresql.org/download/)
 
 - create a database for the backend
@@ -59,6 +64,39 @@ to popluate the database change directory to ```./backend``` and run
 ---
 ### Frontend
 ---
+
+
+---
+### Test
+
+---
+
+tests are located in the backend directory in test_flaskr.py file, to run tests: 
+- change directory to backend
+
+- create a database for the tests
+    ```
+    createdb trivia_test
+    ```
+
+- populate the database with sample data 
+    ```
+    psql trivia_test < trivia.psql
+    ```
+
+- then run the script with python
+    ```
+    python test_flaskr.py
+    ```
+
+
+## Api Reference
+
+the documentation for the api is in the backedn folder, [link here](./backend/APIDOC.md)
+
+
+
+
 
 
 
