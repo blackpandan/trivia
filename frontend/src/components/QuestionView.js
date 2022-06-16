@@ -89,7 +89,7 @@ class QuestionView extends Component {
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json',
-      data: JSON.stringify({ searchTerm: searchTerm }),
+      data: JSON.stringify({ search_term: searchTerm }),
       xhrFields: {
         withCredentials: true,
       },
@@ -128,6 +128,7 @@ class QuestionView extends Component {
   };
 
   render() {
+            console.log(this.state.categories)
     return (
       <div className='question-view'>
         <div className='categories-list'>
@@ -149,8 +150,8 @@ class QuestionView extends Component {
                 {this.state.categories[id]}
                 <img
                   className='category'
-                  alt={`${this.state.categories[id].type.toLowerCase()}`}
-                  src={`${this.state.categories[id].type.toLowerCase()}.svg`}
+                  alt={`${this.state.categories[id].toLowerCase()}`}
+                  src={`${this.state.categories[id].toLowerCase()}.svg`}
                 />
               </li>
             ))}
