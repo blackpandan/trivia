@@ -55,7 +55,7 @@ below are the list of the codes return and their meaning
     ```json
     {
         "error":404,
-        "sucess":False,
+        "sucess":false,
         "message":"Not Found",
     }
     ```
@@ -149,7 +149,7 @@ below are the list of the codes return and their meaning
 
         ```json
         {
-            "success":True,
+            "success":true,
             "question_created": 1 
         }
         ```
