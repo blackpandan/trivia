@@ -7,7 +7,7 @@ the flask backend follows PEP8 guidelines for python.
 
 ## **Getting Started**
 
-you need to have python installed on your system with node and npm (a package manager for node)
+you need to have python installed on your system with node and npm (a package manager for node) as the backend uses python flask framework and the frontend uses react.
 
 
 ---
@@ -77,6 +77,26 @@ to popluate the database change directory to ```./backend``` and run
 ### Frontend
 ---
 
+- install nodejs from the official website [here](https://nodejs.dev/) 
+
+- install dependencies, change directory to frontend and run
+
+    ```javascript
+    npm install //or
+    npm i 
+    ```
+
+- this app was created with react which provides a development server, change the script settings in ```package.json``` to your convenience if you are familiar with npm, run the development server with : 
+
+    ```
+        npm run start
+    ```
+
+- a production build can also be created using
+
+    ```
+        npm run build
+    ```
 
 ---
 ### Test
