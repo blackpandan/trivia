@@ -101,32 +101,15 @@ below are the list of the codes return and their meaning
                 ],
                 "success": true,
                 "total_questions": 2
-                "categories": [
-                    {
-                    "id": 1,
-                    "type": "Science"
-                    },
-                    {
-                    "id": 2,
-                    "type": "Art"
-                    },
-                    {
-                    "id": 3,
-                    "type": "Geography"
-                    },
-                    {
-                    "id": 4,
-                    "type": "History"
-                    },
-                    {
-                    "id": 5,
-                    "type": "Entertainment"
-                    },
-                    {
-                    "id": 6,
-                    "type": "Sports"
-                    }
-                ],}
+                "categories": {
+                    "1" : "Science",
+                    "2" : "Art",
+                    "3" : "Geography",
+                    "4" : "History",
+                    "5" : "Entertainment",
+                    "6" : "Sports"
+                  }
+            }
         ```
 
     - **Create Questions**: perform a post request with the following attributes, it creates a question in the database and returns a response that contains id of the created question.
@@ -357,32 +340,14 @@ below are the list of the codes return and their meaning
         
         ```json
         {
-            "categories": [
-                {
-                "id": 1,
-                "type": "Science"
-                },
-                {
-                "id": 2,
-                "type": "Art"
-                },
-                {
-                "id": 3,
-                "type": "Geography"
-                },
-                {
-                "id": 4,
-                "type": "History"
-                },
-                {
-                "id": 5,
-                "type": "Entertainment"
-                },
-                {
-                "id": 6,
-                "type": "Sports"
-                }
-            ],
+            "categories": {
+                "1" : "Science",
+                "2" :"Art",
+                "3" : "Geography",
+                "4" : "History",
+                "5" : "Entertainment",
+                "6" : "Sports"
+             },
             "success": true,
             "total_categories": 6
         }
@@ -402,32 +367,14 @@ below are the list of the codes return and their meaning
     **response**
     ```json
     {
-        "categories": [
-            {
-            "id": 1,
-            "type": "Science"
-            },
-            {
-            "id": 2,
-            "type": "Art"
-            },
-            {
-            "id": 3,
-            "type": "Geography"
-            },
-            {
-            "id": 4,
-            "type": "History"
-            },
-            {
-            "id": 5,
-            "type": "Entertainment"
-            },
-            {
-            "id": 6,
-            "type": "Sports"
-            }
-        ],
+        "categories": {
+            "1" : "Science",
+            "2" : "Art",
+            "3" : "Geography",
+            "4" : "History
+            "5" : "Entertainment",
+            "6" : "Sports"
+         },
         "current_category": "Sports",
         "questions": [
             {
