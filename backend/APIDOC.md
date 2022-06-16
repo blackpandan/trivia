@@ -371,7 +371,7 @@ below are the list of the codes return and their meaning
             "1" : "Science",
             "2" : "Art",
             "3" : "Geography",
-            "4" : "History
+            "4" : "History",
             "5" : "Entertainment",
             "6" : "Sports"
          },
