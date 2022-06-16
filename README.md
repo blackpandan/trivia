@@ -57,12 +57,21 @@ to popluate the database change directory to ```./backend``` and run
     export FLASK_APP=flaskr
     export FLASK_ENV=development
     ```
+- you also need to set environment variables for the database user and the database password, the variables are ```DATABASE_USER``` and ```DATABASE_PASS``` respectively.
 
-    finally run the server with
+    for windows more info [here](https://docs.oracle.com/en/database/oracle/machine-learning/oml4r/1.5.1/oread/creating-and-modifying-environment-variables-on-windows.html)
+
+    for linux open your ~/.bashrc and add the following line of code to set the variables
 
     ```
+        export DATABASE_USER="yourUsername" 
+        export DATABASE_PASS="yourPassword"
+    ```
+- finally run the server with
+
+   ```
     flask run
-    ```
+   ```
 
 ---
 ### Frontend
