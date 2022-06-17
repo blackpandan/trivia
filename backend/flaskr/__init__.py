@@ -16,7 +16,7 @@ def clean_category(all_categories):
     else:
         categories = {}
         for category in clean_categories:
-            categories[category['id']] = category['type'] 
+            categories[category['id']] = category['type']
         return categories
 
 
@@ -26,7 +26,8 @@ def create_app(test_config=None):
     setup_db(app)
 
     """
-    @DONE:TODO: Set up CORS. Allow '*' for origins. Delete the sample route after completing the TODOs
+    @DONE:TODO: Set up CORS. Allow '*' for origins. Delete the sample route
+    after completing the TODOs
     """
     cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
@@ -35,7 +36,7 @@ def create_app(test_config=None):
     """
     @app.after_request
     def after_request(response):
-        response.headers.add('Access-Control-Allow-Headers', 
+        response.headers.add('Access-Control-Allow-Headers',
                              'Content-Type,Authentication, true')
         response.headers.add('Access-Control-Allow-Methods',
                              'GET, POST, PATCH, DELETE, OPTIONS')
@@ -56,9 +57,9 @@ def create_app(test_config=None):
         print(categories)
 
         return jsonify({
-            "success":True,
+            "success": True,
             "categories": categories,
-            "total_categories":len(categories)
+            "total_categories": len(categories)
         })
 
     """
@@ -74,7 +75,7 @@ def create_app(test_config=None):
         page = request.args.get("page", 1, type=int)
 
         # get range index of questions return
-        start = (QUESTIONS_PER_PAGE - 1) * page 
+        start = (QUESTIONS_PER_PAGE - 1) * page
         end = start + QUESTIONS_PER_PAGE
 
         all_categories = Category.query.all()
@@ -85,10 +86,10 @@ def create_app(test_config=None):
 
         return jsonify(
             {
-                "questions":questions[start:end],
-                "total_questions":len(questions[start:end]),
+                "questions": questions[start:end],
+                "total_questions": len(questions[start:end]),
                 "page": page,
-                "success":True,
+                "success": True,
                 "categories": categories
             }
         )
@@ -96,7 +97,8 @@ def create_app(test_config=None):
     """
     TEST: At this point, when you start the application
     you should see questions and categories generated,
-    ten questions per page and pagination at the bottom of the screen for three pages.
+    ten questions per page and pagination at the bottom of the screen for
+    three pages.
     Clicking on the page numbers should update the questions.
     """
 
@@ -104,7 +106,8 @@ def create_app(test_config=None):
     @DONE:TODO:
     Create an endpoint to DELETE question using a question ID.
 
-    TEST: When you click the trash icon next to a question, the question will be removed.
+    TEST: When you click the trash icon next to a question, the question will
+    be removed.
     This removal will persist in the database and when you refresh the page.
     """
 
@@ -119,10 +122,10 @@ def create_app(test_config=None):
             all_questions = Question.query.all()
             questions = [question.format() for question in all_questions]
             return jsonify({
-                "success":True,
-                "deleted_question":id, 
-                "questions":questions,
-                "total_questions":len(questions)
+                "success": True,
+                "deleted_question": id,
+                "questions": questions,
+                "total_questions": len(questions)
             })
     """
     @DONE:TODO:
@@ -131,33 +134,36 @@ def create_app(test_config=None):
     category, and difficulty score.
 
     TEST: When you submit a question on the "Add" tab,
-    the form will clear and the question will appear at the end of the last page
-    of the questions list in the "List" tab.
+    the form will clear and the question will appear at the end of the last
+    page of the questions list in the "List" tab.
     """
     @app.route("/questions", methods=["POST"])
     def create_question():
         data = request.get_json()
 
-        if data == None:
+        if data is None:
             abort(400)
 
         else:
             if "search_term" in data:
                 search_term = data["search_term"]
                 # use ilike to get questions similar to search_term by name
-                questions = Question.query.filter(Question.question.ilike(f"%{search_term}%")).all()
+                questions = Question.query.filter(
+                            Question.question.ilike(f"%{search_term}%")
+                            ).all()
                 return jsonify({
                     "success": True,
                     "questions": [question.format() for question in questions],
-                    "total_questions":len(questions),
-                    "search_term":search_term
+                    "total_questions": len(questions),
+                    "search_term": search_term
                 })
 
             else:
                 try:
-                    new_question = Question(question=data['question'], answer=data['answer'],
-                                          category=data['category'],
-                                          difficulty=data['difficulty'])
+                    new_question = Question(question=data['question'],
+                                            answer=data['answer'],
+                                            category=data['category'],
+                                            difficulty=data['difficulty'])
 
                     # check if category is valid
                     category = Category.query.get(data['category'])
@@ -168,14 +174,12 @@ def create_app(test_config=None):
                     else:
                         new_question.insert()
                         return jsonify({
-                            "success":True,
+                            "success": True,
                             "question_created": new_question.id
                         })
 
                 except KeyError as e:
                     abort(406)
-                
-        
 
     """
     @Done:TODO:
@@ -211,14 +215,12 @@ def create_app(test_config=None):
         questions = [question.format() for question in all_questions]
 
         return jsonify({
-            "success" : True,
-            "questions" : questions,
+            "success": True,
+            "questions": questions,
             "total_questions": len(questions),
             "current_category": category.type,
             "categories": categories
         })
-
-    
 
     """
     @DONE:TODO:
@@ -231,7 +233,7 @@ def create_app(test_config=None):
     one question at a time is displayed, the user is allowed to answer
     and shown whether they were correct or not.
     """
-    
+
     @app.route("/quizzes", methods=["POST"])
     def get_quiz_question():
         data = request.get_json()
@@ -242,7 +244,7 @@ def create_app(test_config=None):
         try:
             previous_questions = data["previous_questions"]
             current_category = data["category"]
-            
+
             # get questions based on category value supplied
             if current_category == "all":
                 all_questions = Question.query.all()
@@ -251,42 +253,41 @@ def create_app(test_config=None):
                 all_questions = Question.query.filter(
                     Question.category == current_category).all()
 
-
-            # create array with questions not among the supplied previous questions
+            ''' create array with questions not among the supplied previous
+            questions'''
             questions = []
             for question in all_questions:
                 if question.id not in previous_questions:
                     questions.append(question.format())
 
-
             # checks if there are no more questions and returns a message
             if len(questions) == 0:
                 return jsonify({
-                    "success":True,
-                    "message":"no more questions",
-                    "question":False,
-                    "current_category":current_category
+                    "success": True,
+                    "message": "no more questions",
+                    "question": False,
+                    "current_category": current_category
                 })
 
             else:
                 # checks if only 1 question remains and return it
                 if len(questions) == 1:
                     question = questions[0]
-             
-                # create a random index from the number of questions using random module
+
+                ''' create a random index from the number of questions
+                using random module'''
                 random_index = random.randint(0, (len(questions)-1))
 
             question = questions[random_index]
 
             return jsonify({
-                "success":True,
-                "question":question,
-                "current_category":current_category
+                "success": True,
+                "question": question,
+                "current_category": current_category
             })
 
         except KeyError:
             abort(406)
-
 
     """
     @DONE:TODO:
@@ -297,33 +298,33 @@ def create_app(test_config=None):
     @app.errorhandler(400)
     def bad_request(error):
         return jsonify({
-            "success":False,
-            "message":"Bad Request",
+            "success": False,
+            "message": "Bad Request",
             "error": 400
         }), 400
 
     @app.errorhandler(404)
     def not_found(error):
         return jsonify({
-            "success":False,
-            "message":"Not Found",
+            "success": False,
+            "message": "Not Found",
             "error": 404
-        }), 404 
+        }), 404
 
     @app.errorhandler(405)
     def method_not_allowed(error):
         return jsonify({
-            "success":False,
-            "message":"Method Is Not Allowed",
-            "error":405
+            "success": False,
+            "message": "Method Is Not Allowed",
+            "error": 405
         }), 405
 
     @app.errorhandler(406)
     def method_not_acceptable(error):
         return jsonify({
-            "success":False,
-            "message":"Not Acceptable",
-            "error":406
+            "success": False,
+            "message": "Not Acceptable",
+            "error": 406
         }), 406
 
     return app
