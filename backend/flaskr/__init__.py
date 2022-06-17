@@ -265,7 +265,7 @@ def create_app(test_config=None):
                 return jsonify({
                     "success":True,
                     "message":"no more questions",
-                    "question":[],
+                    "question":False,
                     "current_category":current_category
                 })
 
