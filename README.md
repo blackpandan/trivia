@@ -2,12 +2,12 @@
 
 this is a trivia game website that was created as part of my udacity course with some modifications from me,random questions are generated for you to answer based on the category you selected, it was developed using flask for backend and a react frontend.
 
-the flask backend follows PEP8 guidelines for python.
+the flask backend follows [PEP8 guidelines](https://peps.python.org/pep-0008/) for python.
 
 
 ## **Getting Started**
 
-you need to have python installed on your system with node and npm (a package manager for node)
+you need to have python installed on your system with node and npm (a package manager for node) as the backend uses python flask framework and the frontend uses react.
 
 
 ---
@@ -77,9 +77,29 @@ to popluate the database change directory to ```./backend``` and run
 ### Frontend
 ---
 
+- install nodejs from the official website [here](https://nodejs.dev/) 
+
+- install dependencies, change directory to frontend and run
+
+    ```javascript
+    npm install //or
+    npm i 
+    ```
+
+- this app was created with react which provides a development server, change the script settings in ```package.json``` to your convenience if you are familiar with npm, run the development server with : 
+
+    ```
+        npm run start
+    ```
+
+- a production build can also be created using
+
+    ```
+        npm run build
+    ```
 
 ---
-### Test
+### Tests
 
 ---
 
@@ -104,7 +124,10 @@ tests are located in the backend directory in test_flaskr.py file, to run tests:
 
 ## Api Reference
 
-the documentation for the api is in the backedn folder, [link here](./backend/APIDOC.md)
+the documentation for the api is in the backend folder, [link here](./backend/APIDOC.md)
+
+
+
 
 
 

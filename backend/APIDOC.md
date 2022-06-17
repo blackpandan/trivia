@@ -1,7 +1,7 @@
 # Trivia Api
 
 ## Introduction
-trivia api was created as a backend for the trivia project based on udacity course, it has endpoints to handle creation of questions and also returning random question for quizzes, it was designed using python flask following pep 8 guidelines.
+trivia api was created as a backend for the trivia project based on udacity course, it has endpoints to handle creation of questions and also returning random question for quizzes, it was designed using python flask following [pep 8 guidelines](https://peps.python.org/pep-0008/).
 
 ## Getting Started
 - BASE URL: the base url is still at localhost since its still in local development
