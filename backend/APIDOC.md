@@ -426,5 +426,16 @@ below are the list of the codes return and their meaning
     
     ```
 
+    when the questions in the database have already been given and no more question to return the response is usually different and the ```question``` parameter becomes a ```boolean``` -> ```false``` 
+
+    **response**
+
+    ```json
+    {
+        "current_category":"all",
+        "question": false,
+        "success":true
+    }
+    ```
     
     
