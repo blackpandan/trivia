@@ -174,8 +174,6 @@ class TriviaTestCase(unittest.TestCase):
                                       json={"search_term":"tyyghbnanghbnj"})
         data = json.loads(response.data)
         # gets questions with the same search term as expected output
-        all_questions = Question.query.filter(Question.question.ilike("%tyyghbnanghbnj%"))
-        questions = [question.format() for question in all_questions]
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(data["questions"]), 0)
@@ -225,7 +223,6 @@ class TriviaTestCase(unittest.TestCase):
     
     def test_get_questions_category_not_found(self):
         response = self.client().get('/questions/1000/questions')
-        data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 404)
 
@@ -244,14 +241,12 @@ class TriviaTestCase(unittest.TestCase):
 
     def test_get_quizzes_missing_parameter(self):
         response = self.client().post('/quizzes', json={"category": "all"})
-        data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 406)
 
 
     def test_get_quizzes_no_parameter(self):
         response = self.client().post('/quizzes')
-        data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
 
