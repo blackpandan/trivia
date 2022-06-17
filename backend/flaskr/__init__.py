@@ -1,4 +1,3 @@
-import os
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -285,7 +284,7 @@ def create_app(test_config=None):
                 "current_category":current_category
             })
 
-        except KeyError as e:
+        except KeyError:
             abort(406)
 
 
@@ -296,7 +295,7 @@ def create_app(test_config=None):
     """
 
     @app.errorhandler(400)
-    def not_found(error):
+    def bad_request(error):
         return jsonify({
             "success":False,
             "message":"Bad Request",
@@ -320,7 +319,7 @@ def create_app(test_config=None):
         }), 405
 
     @app.errorhandler(406)
-    def method_not_allowed(error):
+    def method_not_acceptable(error):
         return jsonify({
             "success":False,
             "message":"Not Acceptable",
